@@ -1,0 +1,6 @@
+Version 1.7
+
+See ChangeLog for details.
+
+Library for Linux and Android to use eSE over SPI using T=1 protocol.
+Copyright ©2017-2019 Gemalto – a Thales Company. All rights Reserved.
