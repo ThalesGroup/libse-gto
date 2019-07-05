@@ -1,0 +1,6 @@
+<libse-gto> APDU T=1 over SPI interface for Thales Embedded Secure Element
+
+This product includes software developed at Gemalto a Thales Company (http://www.gemalto.com)
+Source code is covered by Gemalto License described in LICENSE file.
+
+NOTICE and LICENSE files shall remain with source code of Gemalto a Thales Company.
