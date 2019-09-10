@@ -1,6 +1,6 @@
 AC_PREREQ(2.60)
 AC_INIT([GEMALTO libse-gto],
-        [1.7],
+        [1.9],
         [support@gemalto.com],
         [libse-gto],
         [http://gemalto.com])
@@ -18,7 +18,9 @@ AM_INIT_AUTOMAKE([
 AC_PROG_CC_C99
 AC_CONFIG_MACRO_DIR([m4])
 AM_SILENT_RULES([yes])
-LT_INIT
+LT_INIT([
+        pic-only
+])
 AC_PREFIX_DEFAULT([/usr/local])
 
 dnl Check if compiler is clang
@@ -108,7 +110,7 @@ my_CFLAGS="\
 "
 AC_SUBST([my_CFLAGS])
 
-AC_CONFIG_HEADERS(config.h jni/android/config.h) 
+AC_CONFIG_HEADERS(config.h jni/android/config.h)
 AC_CONFIG_FILES([
         Makefile
         src/Makefile

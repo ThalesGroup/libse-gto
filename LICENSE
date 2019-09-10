@@ -1,11 +1,276 @@
-﻿<libse-gto> APDU T=1 over SPI interface for Thales Embedded Secure Element
+LICENSE AGREEMENT
 
-Copyright ©2017-2019 Gemalto – a Thales Company. All rights Reserved.
+This Agreement is made the ____ day of October, 2015 (the “Effective Date” of
+this Agreement) BETWEEN GEMALTO SA,  a company organized under the laws of
+France with its principal place of business located at 6, Rue de la Verrerie,
+92190 Meudon (France) (hereinafter "Gemalto") on the one part, and Licensee
+(hereafter identified) on the other part.
 
-This copy is licensed under the Apache License, Version 2.0 (the "License");
-You may not use this file except in compliance with the License.
-You may obtain a copy of the License at:
-    http://www.apache.org/licenses/LICENSE-2.0 or https://www.apache.org/licenses/LICENSE-2.0.html 
+RECITALS
 
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and limitations under the License.
+Whereas, Licensee desires to license from Gemalto the Licensed Materials
+(hereafter defined) to implement it solely and only for the Purpose.
+
+NOW, THEREFORE, in furtherance of the foregoing Recitals and in consideration
+of the mutual covenants and obligations set forth in this Agreement, the
+Parties agree as follows:
+
+1. Definitions
+
+Unless the provisions of this Agreement otherwise provide, the following
+capitalized terms used in this Agreement shall have the meaning set out below.
+
+1.1 “Agreement” shall mean this present license agreement for evaluation and
+    the Appendix that is part of it.
+
+1.2 “IP Rights” shall mean patent applications, patents, registered design,
+    copyrights (including the copyright on software in any code), mask-works,
+    trade secrets and other similar statutory rights, as well as applications
+    for any such rights.
+
+1.3 “Licensed Materials” shall mean the following source code: Gemalto secESE
+    implementation source code.
+
+1.4 “Purpose” shall mean the Porting of the Licensed Material for the sole and
+    exclusive purpose of enabling the Gemalto eSE to communicate with the
+    Trusted Execution Environment (TEE).
+
+1.5 “Porting” shall mean the action of modifying Source Code to achieve same
+    side effects as original source code when transformed to binary
+    representation.
+
+1.6 “TEE” shall mean the secure area of the Licensee’s connected device.
+
+
+2. The License
+
+2.1 Subject to the terms of the Agreement Gemalto hereby grants to Licensee,
+    under Gemalto's IP Rights, a non-exclusive, revocable, nontransferable
+    license to use the Licensed Materials solely and only for the Purpose.
+
+2.2 Gemalto reserves all rights not expressly granted to Licensee hereunder
+    and Licensees use of the Licensed Materials for any other purpose is
+    expressly prohibited, in particular the right to commercially use the
+    Licensed Materials. No license, rights or interest in any trademark, trade
+    name or service mark of Licensor is granted to Licensee.
+
+2.3 Gemalto and its grantors, if any, own all right title and interest in the
+    Licensed Materials, including in all IP Rights relating to the design,
+    manufacture, operation or services of the Licensed Materials.
+
+2.4 SCOPE OF GRANT. LICENSEE AGREES THAT IT SHALL NOT, IN WHOLE OR IN PART, AT
+    ANY TIME DURING THE TERM OF OR AFTER ANY EXPIRATION OR TERMINATION OF THIS
+    AGREEMENT:
+    (a) SELL, ASSIGN, SUBLICENSE, LEASE, RENT, TIMESHARE, GRANT A SECURITY
+    INTEREST IN, DISTRIBUTE OR OTHERWISE TRANSFER THE LICENSED MATERIALS OR
+    ANY DOCUMENTATION; (b) COPY OR REPRODUCE THE LICENSED MATERIALS OR ANY
+    SUCH DOCUMENTATION EXCEPT AS EXPLICITLY SET OUT IN THIS AGREEMENT;
+    (c) DISCLOSE THE LICENSED MATERIALS OR SUCH DOCUMENTATION OR PERMIT THEM
+    TO BE USED BY ANY OTHER INDIVIDUAL OR ENTITY WITHOUT THE PRIOR WRITTEN
+    CONSENT OF GEMALTO;
+    (d) MODIFY, TRANSLATE, ADAPT, OR CREATE DERIVATIVE WORKS BASED ON THE
+    LICENSED MATERIALS EXCEPT FOR THE PURPOSE, OR MERGE THE LICENSED MATERIALS
+    INTO ANY ITEMS;
+    (e) MAKE LICENSED MATERIALS AVAILABLE IN ANY FORM TO ANY PERSON OTHER
+    THAN THE LICENSEE'S EMPLOYEES; OR
+    (f) ALLOW ANY THIRD PARTY TO DO ANY OF THE ACTS DESCRIBED IN (a) THROUGH
+        (f) ABOVE.
+
+3. Protection of the Licensed Materials
+
+In order to protect Gemalto and its grantors ownership in the Licensed
+Materials, Licensee represents and warrants that it has policies and
+procedures in place sufficient to enable Licensee to ensure its employees
+compliance with the Licensed Materials usage restrictions of this Agreement.
+
+4. Warranties
+
+4.1 THE Licensed Materials IS LICENSED HEREUNDER "AS IS". Gemalto AND ITS
+    GRANTORS MAKE, AND Licensee RECEIVES, NO WARRANTIES OF ANY KIND OR
+    CONDITIONS EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE, AND Gemalto
+    SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS
+    FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT OR ARISING FROM A COURSE OF
+    DEALING OR USAGE IN TRADE.  Gemalto does not warrant that use in whole or
+    in part of the Licensed Materials will be error free, will meet Licensee's
+    requirements, or will operate with the combination of hardware and
+    software selected by Licensee.
+
+4.2 ALL WARRANTIES, CONDITIONS OR OTHER TERMS IMPLIED BY LAW ARE EXCLUDED TO
+    THE FULLEST EXTENT PERMITTED BY LAW.
+
+5. Termination
+
+5.1 This Agreement is deemed to have come into force at the Effective Date and
+    shall remain valid for a period of two (2) calendar years from the Effective
+    Date, unless earlier terminated pursuant to Section 5.2 below.
+
+5.2 This Agreement may be terminated at any time by either Party without
+    cause. Such termination shall be effective upon notice of termination.
+
+5.3 Upon termination of this Agreement, Licensee shall: (i) cease using the
+    Licensed Materials and any other materials provided pursuant to this
+    Agreement, (ii) cause its employees and agents to destroy and to certify
+    to the destruction of all copies of the Licensed Materials and any other
+    materials provided pursuant to this Agreement, in whole or in part, (iii)
+    return all original copies of the Licensed Materials and any other
+    materials provided pursuant to this Agreement to Licensee, and (iv) make
+    no further use of any of the Licensed Materials and any other materials
+    provided pursuant to this Agreement for any purpose
+
+5.4 Sections 1, 2.2, 2.3, 2.4, 4, 5, 6, 7, 8, 9 shall survive expiration or
+    any termination of this Agreement.
+
+6. Confidentiality
+
+6.1 Definition: As used in this Agreement, the term "Confidential Information"
+    shall mean the Licensed Materials, and any information that includes, but
+    not limited to methods, or concepts utilized therein, trade secrets, know
+    how, inventions, techniques, processes, programs, schematics, data and
+    documentation relating to the Licensed Materials.
+
+6.2 Security: Licensee agrees to use the Licensed Materials under carefully
+    controlled conditions and exclusively for the purpose set forth in the
+    Agreement, and to inform all employees who are given access to the
+    Licensed Materials that they are confidential trade secrets of Gemalto and
+    are licensed to Licensee as such. Upon request by Gemalto, Licensee shall
+    take all actions reasonably required to recover any such source code in
+    the event of loss or misappropriation, or to otherwise prevent their
+    unauthorized disclosure or use.
+
+6.3 General: The obligations pursuant to sections 6.1 and 6.2 shall not apply
+    to information which can be shown by documentary evidence: (i) has entered
+    the public domain through no fault of the receiving Party; or, (ii) was
+    known to the receiving Party prior to receipt from the disclosing party;
+    or, (iii) was disclosed to the receiving Party by a third party having the
+    right to disclose; or, (iv) was independently developed by the receiving
+    party to whom no disclosure of Confidential Information has been made, the
+    onus of proof of independence being on the receiving Party.
+
+6.4 Notification: Licensee agrees to notify Gemalto promptly in the event of
+    any breach of its security under conditions in which it would appear that
+    the Licensed Materials were prejudiced or exposed to loss. Licensee shall,
+    upon request of Gemalto, take all other reasonable steps necessary to
+    recover any compromised trade secrets disclosed to or place in possession
+    or control of Licensee by virtue of this Agreement. The cost of taking
+    such steps shall be borne by Licensee.
+
+6.5 Injunctive Relief: Licensee agrees that, in the event Gemalto is required
+    to bring an action to enforce the provisions of this Agreement, the
+    damages to Gemalto for improper disclosure of the Confidential Information
+    or any portion thereof are irreparable, and Gemalto is entitled to
+    equitable relief, including but not limited to and injunction and a
+    preliminary injunction, in addition to other relief.
+
+7. Liability
+
+IN NO EVENT WILL GEMALTO BE LIABLE FOR ANY SPECIAL, CONSEQUENTIAL, INCIDENTAL
+OR OTHER DAMAGES (INCLUDING DAMAGES FOR LOSS OF PROFITS, LOSS OF DATA, COSTS
+OF PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES OR THE LIKE) ARISING OUT OF THE
+USE OR THE INABILITY TO USE THE LICENSED MATERIALS EVEN IF GEMALTO HAS BEEN
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+8. General Provisions
+
+8.1 This Agreement shall be interpreted, construed and enforced in accordance
+    with the laws of France without respect to its conflict of law provisions.
+    Any disputes arising out of this Agreement shall be resolved by a court of
+    competent jurisdiction sitting in Paris, France.
+
+8.2 This Agreement, in whole or in part, shall not be assigned by Licensee to
+    a third party without prior written consent of Gemalto.  Gemalto’s consent
+    to an assignment shall not be deemed to be consent to any subsequent
+    assignment.  The following shall be deemed an assignment: (1) any
+    dissolution, merger, consolidation, or other reorganization of or
+    affecting the party, whether or not the party is the surviving
+    corporation, and (2) the sale or transfer, whether is one or a series of
+    transactions, of stock possessing more than fifty percent of the total
+    combined voting power of all classes of the party’s capital stock issued,
+    outstanding and entitled to vote for the election of the directors. In the
+    event that this Agreement is assigned effectively to a third party, this
+    Agreement shall bind upon successors and assigns of the Licensee hereto.
+
+8.3 All notices provided for in connection with this Agreement shall be given
+    in writing and shall be effective (i) upon receipt, when served by
+    personal delivery; or  (ii) on the third day following the date of
+    transmittal when transmitted by express mail (e.g., Federal-Express, UPS,
+    DHL); or  (iv) on the 7th day following the date of mailing when sent by
+    registered airmail of the sender's country with postage prepaid, addressed
+    to the Party as follows, or to a changed address as the Party shall have
+    specified by prior written notice:
+
+    - Gemalto: At the address indicated above. Attention: General Counsel;
+
+    - LICENSEE:   at the address here below indicated.
+
+8.4 The waiver by either party of the remedy for the other party's breach of
+    or its right under this Agreement will not constitute a waiver of the
+    remedy for any other similar or subsequent or right.
+
+8.5 If any provision of this Agreement is or becomes, at any time or for any
+    reason, unenforceable or invalid, no other provision of this Agreement
+    shall be affected thereby, and the remaining provisions of this Agreement
+    shall continue with the same force and effect as if such unenforceable or
+    invalid provisions had not been inserted in this Agreement.
+
+8.6 No changes, modifications or alterations to this Agreement shall be valid
+    unless reduced to writing and duly signed by respective authorized
+    representatives of the parties.
+
+8.7 In giving effect to this Agreement, no party shall be or be deemed to be
+    an agent or employee of another party for any purpose, and that their
+    relationship to each other shall be that of independent contractors.
+    Nothing in this Agreement shall constitute a partnership or a joint
+    venture between the parties.
+
+8.8 The Licensed Materials may be subject to any and all laws, regulations,
+    orders or other restrictions relative to export, re-export or
+    redistribution of the Licensed Materials that may now or in the future be
+    imposed by the government of France, UK, the United States of America or
+    other foreign governments.  Licensee agrees to comply with all such
+    applicable laws and regulations. Licensee agrees that Licensed Materials
+    shall be exported or re-exported directly or indirectly in violation of
+    such export laws.
+
+8.9 This Agreement constitutes the entire agreement between the parties and
+    supersedes all prior proposal(s) and discussions relative to the project
+    and neither of the parties shall be bound by any conditions, definitions,
+    warranties, understandings or representations with respect to the project
+    other than as expressly provided herein. Nothing in this clause shall
+    operate to limit or exclude liability for fraud. The terms and conditions
+    contained herein and the appendixes attached hereto constitute the entire
+    agreement between the parties and shall supersede all previous
+    communications either oral or written. No oral explanation or oral
+    information by either party hereto shall alter the meaning or
+    interpretation of this Agreement.
+
+
+_____________________________________________________________________________
+
+
+IN WITNESS THEREOF, the parties have caused this Agreement to be executed in
+their respective corporate manner by their duly authorized representatives.
+
+Gemalto S.A.
+
+Name:
+
+Title:
+
+Date:
+
+Signature:
+
+
+Licensee:
+    Name:__________ a company organized under the law of _______ located
+    at__________________.
+
+Name:
+
+Title:
+
+Date:
+
+Signature:
+
+CONFIDENTIAL

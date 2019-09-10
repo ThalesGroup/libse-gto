@@ -171,6 +171,20 @@ se_gto_reset(struct se_gto_ctx *ctx, void *atr, size_t r)
 }
 
 SE_GTO_EXPORT int
+se_gto_resync(struct se_gto_ctx *ctx)
+{
+    int err;
+
+    err = isot1_resync(&ctx->t1);
+    if (err < 0)
+        errno = -err;
+    else {
+        dbg("se_gto_resync success\n");
+    }
+    return err;
+}
+
+SE_GTO_EXPORT int
 se_gto_apdu_transmit(struct se_gto_ctx *ctx, const void *apdu, int n, void *resp, int r)
 {
     if (!apdu || (n < 4) || !resp || (r < 2)) {
