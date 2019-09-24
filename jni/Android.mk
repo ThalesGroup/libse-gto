@@ -5,6 +5,8 @@ LOCAL_PATH := $(call my-dir)
 my_CFLAGS := \
       -include $(LOCAL_PATH)/android/config.h \
       -include $(LOCAL_PATH)/android/config.gto.h \
+	  -static \
+	  -static-libstdc++ \
       -std=gnu99 \
       -Wall \
       -Wchar-subscripts \

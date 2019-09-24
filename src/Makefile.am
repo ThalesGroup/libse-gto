@@ -17,7 +17,7 @@ LIBSE_GTO_CURRENT=2
 LIBSE_GTO_REVISION=0
 LIBSE_GTO_AGE=2
 
-pkginclude_HEADERS = se-gto/libse-gto.h 
+pkginclude_HEADERS = se-gto/libse-gto.h
 lib_LTLIBRARIES = libse-gto.la
 
 libse_gto_la_SOURCES = \

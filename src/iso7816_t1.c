@@ -28,6 +28,7 @@
 #include "iso7816_t1.h"
 #include "checksum.h"
 #include "transport.h"
+#include <stdio.h>
 
 #define T1_REQUEST_RESYNC 0x00
 #define T1_REQUEST_IFS    0x01
@@ -37,7 +38,7 @@
 
 #define MAX_RETRIES 3
 
-#define MAX_WTX_ROUNDS 9
+#define MAX_WTX_ROUNDS 100
 
 #define WTX_MAX_VALUE 1
 
@@ -241,10 +242,14 @@ parse_rblock(struct t1_state *t1, uint8_t *buf)
 
     switch (pcb & 0x2F) {
         case 0:
-            t1->retries = MAX_RETRIES;
-            if ((t1->send.next ^ next) != 0)
+            if ((t1->send.next ^ next) != 0) {
                 /* Acknowledge previous block */
+                t1->retries = MAX_RETRIES;
                 ack_iblock(t1);
+            } else {
+                t1->retries--;
+                if (t1->retries <= 0) r = -ETIMEDOUT;
+            }
             break;
 
         case 1:
@@ -257,6 +262,13 @@ parse_rblock(struct t1_state *t1, uint8_t *buf)
         case 2:
             /* Error */
             t1->state.halt = 1; r = -EIO;
+            break;
+
+        case 3:
+            t1->retries--;
+            r = -EREMOTEIO;
+            t1->state.request = 1;
+            t1->request       = T1_REQUEST_RESYNC;
             break;
 
         default:
@@ -693,12 +705,11 @@ t1_transceive(struct t1_state *t1, const void *snd_buf,
         /* Received APDU response */
         n = (int)t1_recv_window_size(t1);
     else if (n < 0  && t1->state.aborted != 1){
-        if (t1->state.request == 1 && t1->request == T1_REQUEST_RESET)
-            n = -EIO; /*Fatal error meaning eSE is dead*/
-        else {
-            /*Request RESET to the secure element*/
+        if (!(t1->state.request == 1 && t1->request == T1_REQUEST_RESET))
+        {
+            /*Request Soft RESET to the secure element*/
             r = t1_reset(t1);
-            if (r < 0) n = -EIO; /*Fatal error meaning eSE is dead*/
+            if (r < 0) n = 0xDEAD; /*Fatal error meaning eSE is not responding to reset*/
         }
     }
     return n;

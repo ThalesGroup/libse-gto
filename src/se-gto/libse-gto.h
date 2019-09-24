@@ -161,16 +161,6 @@ void se_gto_set_gtodev(struct se_gto_ctx *ctx, const char *gtodev);
  */
 int se_gto_reset(struct se_gto_ctx *ctx, void *atr, size_t r);
 
-/** Send resync command to Secure Element.
- *
- * @param ctx se-gto library context
- *
- * @c errno is set on error.
- *
- * @return -1 on error, 0 otherwise.
- */
-int se_gto_resync(struct se_gto_ctx *ctx);
-
 /** Transmit APDU to Secure Element
  *
  * If needed to comply with request from command, multiple ISO7816 Get
