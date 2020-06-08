@@ -50,7 +50,7 @@
 #define PACKAGE_NAME "GEMALTO libse-gto"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "GEMALTO libse-gto 1.11"
+#define PACKAGE_STRING "GEMALTO libse-gto 1.12"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "libse-gto"
@@ -59,10 +59,10 @@
 #define PACKAGE_URL "http://gemalto.com"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.11"
+#define PACKAGE_VERSION "1.12"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.11"
+#define VERSION "1.12"
