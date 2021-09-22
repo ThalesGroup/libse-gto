@@ -34,7 +34,9 @@
 #define T1_REQUEST_IFS    0x01
 #define T1_REQUEST_ABORT  0x02
 #define T1_REQUEST_WTX    0x03
+#define T1_REQUEST_CIP    0x04
 #define T1_REQUEST_RESET  0x05 /* Custom RESET for SPI version */
+#define T1_REQUEST_SWR    0x0F
 
 #define MAX_RETRIES 3
 
@@ -103,7 +105,7 @@ t1_close_send_window(struct t1_state *t1)
 static int
 do_chk(struct t1_state *t1, uint8_t *buf)
 {
-    int n = 3 + buf[2];
+    int n = 4 + (buf[3] | buf[2] << 8);
 
     switch (t1->chk_algo) {
         case CHECKSUM_LRC:
@@ -124,7 +126,7 @@ do_chk(struct t1_state *t1, uint8_t *buf)
 static int
 chk_is_good(struct t1_state *t1, const uint8_t *buf)
 {
-    int n = 3 + buf[2];
+    int n = 4 + (buf[3] | buf[2] << 8);
     int match;
 
     switch (t1->chk_algo) {
@@ -164,7 +166,8 @@ write_iblock(struct t1_state *t1, uint8_t *buf)
 
     buf[0] = t1->nad;
     buf[1] = pcb;
-    buf[2] = (uint8_t)n;
+    buf[2] = (uint8_t)n >> 8;
+    buf[3] = (uint8_t)n;
     memcpy(buf + 3, t1->send.start, (size_t)n);
     return do_chk(t1, buf);
 }
@@ -177,28 +180,52 @@ write_rblock(struct t1_state *t1, int n, uint8_t *buf)
     if (t1->recv.next)
         buf[1] |= 0x10;
     buf[2] = 0;
+    buf[3] = 0;
     return do_chk(t1, buf);
 }
 
 static int
 write_request(struct t1_state *t1, int request, uint8_t *buf)
 {
+	uint8_t tmp[2] = {0x00, 0x00};
     buf[0] = t1->nad;
     buf[1] = 0xC0 | request;
 
     request &= 0x1F;
     if (T1_REQUEST_IFS == request) {
         /* On response, resend card IFS, else this is request for device IFS */
-        buf[2] = 1;
-        if (buf[1] & 0x20)
-            buf[3] = t1->ifsc;
-        else
-            buf[3] = t1->ifsd;
-    } else if (T1_REQUEST_WTX == request) {
-        buf[2] = 1;
-        buf[3] = t1->wtx;
-    } else
         buf[2] = 0;
+        buf[3] = 1;//todo : DONE
+        if (buf[1] & 0x20) {
+            tmp[1] = (uint8_t) t1->ifsc;
+            tmp[0] = (uint8_t) t1->ifsc >> 8;
+            if (tmp[0] == 0x00)
+                buf[4] = t1->ifsc;
+            else {
+                buf[4] = tmp[0];
+                buf[5] = tmp[1];
+                buf[3] = 2;
+            }
+        }
+        else {
+            tmp[1] = (uint8_t) t1->ifsd;
+            tmp[0] = (uint8_t) t1->ifsd >> 8;
+            if (tmp[0] == 0x00)
+                buf[4] = t1->ifsd;
+            else {
+                buf[4] = tmp[0];
+                buf[5] = tmp[1];
+                buf[3] = 2;
+            }
+        }
+    } else if (T1_REQUEST_WTX == request) {
+        buf[2] = 0;
+		buf[3] = 1;
+        buf[4] = t1->wtx;
+    } else {
+        buf[2] = 0;
+        buf[3] = 0;
+    }
 
     return do_chk(t1, buf);
 }
@@ -292,16 +319,19 @@ parse_request(struct t1_state *t1, uint8_t *buf)
             break;
 
         case T1_REQUEST_IFS:
-            if (buf[2] != 1)
-                n = -EBADMSG;
-            else if ((buf[3] == 0) || (buf[3] == 0xFF))
+//            if (buf[2] != 1)
+//                n = -EBADMSG;
+            if ((buf[4] == 0 && buf[3] == 1) || (buf[4] >= 0x0F && buf[5] >= 0xFA && buf[3] == 2)) //todo
                 n = -EBADMSG;
             else
-                t1->ifsc = buf[3];
+                if (buf[3] == 2)
+                    t1->ifsc = buf[5] | buf[4] << 8;
+                else if (buf[3] == 1)
+                    t1->ifsc = buf[4];
             break;
 
         case T1_REQUEST_ABORT:
-            if (buf[2] == 0) {
+            if (buf[2] == 0 && buf[3] == 0) {
                 t1->state.aborted = 1;
                 t1_close_send_window(t1);
                 t1_close_recv_window(t1);
@@ -310,11 +340,11 @@ parse_request(struct t1_state *t1, uint8_t *buf)
             break;
 
         case T1_REQUEST_WTX:
-            if (buf[2] > 1) {
+            if (buf[2] != 0x00 || buf[3] > 1) {
                 n = -EBADMSG;
                 break;
-            } else if (buf[2] == 1) {
-                t1->wtx = buf[3];
+            } else if (buf[3] == 1) {
+                t1->wtx = buf[4];
                 if (t1->wtx_max_value)
                     if (t1->wtx > WTX_MAX_VALUE)
                         t1->wtx = WTX_MAX_VALUE;
@@ -391,13 +421,13 @@ parse_response(struct t1_state *t1, uint8_t *buf)
             switch (pcb) {
                 case T1_REQUEST_IFS:
 				    t1->need_ifsd_sync = 0;
-                    if ((buf[2] != 1) && (buf[3] != t1->ifsd))
-                        r = -EBADMSG;
+/*                    if ((buf[2] != 1) && (buf[3] != t1->ifsd))
+                        r = -EBADMSG;*/
                     break;
 
-                case T1_REQUEST_RESET:
+                case T1_REQUEST_RESET: //TODO
                     t1->need_reset = 0;
-                    if (buf[2] <= sizeof(t1->atr)) {
+                    if (buf[3] <= sizeof(t1->atr)) {
                         t1->atr_length = buf[2];
                         if (t1->atr_length)
                             memcpy(t1->atr, buf + 3, t1->atr_length);
@@ -453,7 +483,7 @@ read_block(struct t1_state *t1)
         if (t1->buf[0] != t1->nadc)
             return -EBADMSG;
 
-        if (t1->buf[2] == 255)
+        if (t1->buf[2] >= 0x0F && t1->buf[3] >= 0xFA)
             return -EBADMSG;
     }
 
@@ -651,9 +681,9 @@ t1_init(struct t1_state *t1)
 {
     t1_clear_states(t1);
 
-    t1->chk_algo = CHECKSUM_LRC;
-    t1->ifsc     = 32;
-    t1->ifsd     = 32;
+    t1->chk_algo = CHECKSUM_CRC;
+    t1->ifsc     = 8;
+    t1->ifsd     = 64;
     t1->bwt      = 300; /* milliseconds */
 
     t1->send.next = 0;
@@ -709,7 +739,7 @@ t1_transceive(struct t1_state *t1, const void *snd_buf,
         {
             /*Request Soft RESET to the secure element*/
             r = t1_reset(t1);
-            if (r < 0) n = -0xDEAD; /*Fatal error meaning eSE is not responding to reset*/
+            if (r < 0) n = 0xDEAD; /*Fatal error meaning eSE is not responding to reset*/
         }
     }
     return n;
