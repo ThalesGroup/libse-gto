@@ -684,9 +684,9 @@ t1_init(struct t1_state *t1)
     t1->send.next = 0;
     t1->recv.next = 0;
 
-    t1->need_reset  = 0;
+    t1->need_reset  = 1;
     t1->need_resync = 0;
-	t1->need_cip    = 1;
+	t1->need_cip    = 0;
     t1->spi_fd      = -1;
 
     t1->wtx_max_rounds = MAX_WTX_ROUNDS;
