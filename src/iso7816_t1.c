@@ -315,7 +315,13 @@ parse_request(struct t1_state *t1, uint8_t *buf)
     t1->request = request;
     switch (request) {
         case T1_REQUEST_RESYNC:
-            n = -EOPNOTSUPP;
+            if (buf[2] == 0 && buf[3] == 0) {
+                t1->retries--;
+                n = -EREMOTEIO;
+                t1->state.request = 1;
+                t1->request       = T1_REQUEST_RESYNC;
+            } else
+                n = -EBADMSG;
             break;
 
         case T1_REQUEST_IFS:
