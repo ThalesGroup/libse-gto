@@ -158,7 +158,7 @@ se_gto_set_gtodev(struct se_gto_ctx *ctx, const char *gtodev)
 }
 
 SE_GTO_EXPORT int
-se_gto_reset(struct se_gto_ctx *ctx, void *atr, size_t r)
+se_gto_reset(struct se_gto_ctx *ctx)
 {
     int err;
 
@@ -166,6 +166,18 @@ se_gto_reset(struct se_gto_ctx *ctx, void *atr, size_t r)
     if (err < 0) {
         errno = -err;
         ctx->check_alive = 1;
+    }
+    return err;
+}
+
+SE_GTO_EXPORT int
+se_gto_cip(struct se_gto_ctx *ctx, void *atr, size_t r)
+{
+    int err;
+
+    err = isot1_cip(&ctx->t1);
+    if (err < 0) {
+        errno = -err;
     }
     else {
         err = isot1_get_atr(&ctx->t1, atr, r);
@@ -242,6 +254,6 @@ se_gto_close(struct se_gto_ctx *ctx)
     (void)isot1_release(&ctx->t1);
     (void)spi_teardown(ctx);
     log_teardown(ctx);
-    if (ctx) free(ctx);
+    free(ctx);
     return status;
 }

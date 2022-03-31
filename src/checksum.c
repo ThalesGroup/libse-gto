@@ -91,3 +91,14 @@ crc_ccitt(uint16_t crc, const void *s, size_t n)
             crc = (uint8_t)(crc >> 8) ^ fast[(uint8_t)(crc ^ *p++)];
     return crc;
 }
+
+unsigned
+crc16_x25(uint16_t wCrc, uint8_t* pData, uint32_t length) {
+    uint32_t i;
+    while (length--) {
+        wCrc ^= *(uint8_t *)pData++ << 0;
+        for (i=0; i < 8; i++)
+            wCrc = wCrc & 0x0001 ? (wCrc >> 1) ^ 0x8408 : wCrc >> 1;
+    }
+    return wCrc ^ 0xffff;
+}

@@ -35,5 +35,6 @@
 
 unsigned lrc8(const void *s, size_t n);
 unsigned crc_ccitt(uint16_t crc,  const void *s, size_t n);
+unsigned crc16_x25(uint16_t wCrc, uint8_t* pData, uint32_t length);
 
 #endif /* CHECKSUM_H */
