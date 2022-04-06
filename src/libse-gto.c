@@ -220,7 +220,7 @@ se_gto_open(struct se_gto_ctx *ctx)
 
     ctx->check_alive = 0;
 
-    isot1_bind(&ctx->t1, 0x2, 0x1);
+    isot1_bind(&ctx->t1, 0x1, 0x2);
 
     dbg("fd: spi=%d\n", ctx->t1.spi_fd);
     return 0;
