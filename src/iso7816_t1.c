@@ -358,7 +358,7 @@ parse_request(struct t1_state *t1, uint8_t *buf)
                     t1->wtx_rounds--;
                     if (t1->wtx_rounds <= 0) {
                         t1->retries = 0;
-                        n = -EBADE;
+                        n = -ETIMEDOUT;
                     }
                 }
             }
@@ -392,8 +392,8 @@ parse_atr(struct t1_state *t1)
 
     if (ifsc_index < t1->atr_length) t1->ifsc = (uint16_t) (atr[ifsc_index] << 8 | atr[ifsc_index + 1] );
 	if (bwt_index < t1->atr_length) t1->bwt = (uint16_t) (atr[bwt_index] << 8 | atr[bwt_index + 1] );
-	printf("\nifsc = %d\n", t1->ifsc);
-	printf("\nbwt = %d\n", t1->bwt);
+	//printf("\nifsc = %d\n", t1->ifsc);
+	//printf("\nbwt = %d\n", t1->bwt);
 }
 
 /* 1 if expected response, 0 if reemit I-BLOCK, negative value is error */
@@ -677,8 +677,6 @@ t1_clear_states(struct t1_state *t1)
     t1->send.start = t1->send.end = NULL;
     t1->recv.start = t1->recv.end = NULL;
     t1->recv.size  = 0;
-	t1->need_reset  = 0;
-    t1->need_cip    = 0;
 
     t1->recv_size = 0;  /* Also count discarded bytes */
 }
@@ -751,7 +749,7 @@ start:
         /* Received APDU response */
         n = (int)t1_recv_window_size(t1);
     else if (n < 0  && t1->state.aborted != 1){
-        if (!(t1->state.request == 1 && t1->request == T1_REQUEST_RESYNC) && !(t1->state.request == 1 && t1->request == T1_REQUEST_SWR))
+        if (!(t1->state.request == 1 && t1->request == T1_REQUEST_RESYNC) && !(t1->state.request == 1 && t1->request == T1_REQUEST_SWR)&& !(t1->request == T1_REQUEST_WTX))
         {
             /*Request Soft RESET to the secure element*/
             //t1_resync(t1);
@@ -770,6 +768,8 @@ start:
         {
             /*Request Soft RESET to the secure element*/
             if(!(t1->state.request == 1 && t1->request == T1_REQUEST_SWR)) {
+				t1_close_send_window(t1);
+                t1_close_recv_window(t1);
                 r = t1_reset(t1);
                 if (r < 0) n = -0xDEAD; /*Fatal error meaning eSE is not responding to reset*/
             }
@@ -782,6 +782,9 @@ static int
 t1_negotiate_ifsd(struct t1_state *t1, int ifsd)
 {
     t1_clear_states(t1);
+    t1->need_reset = 0;
+    t1->need_resync = 0;
+    t1->need_cip = 0;
     t1->state.request = 1;
 
     t1->request = T1_REQUEST_IFS;
