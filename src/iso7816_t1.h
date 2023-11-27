@@ -25,9 +25,12 @@
 #define ISO7816_T1_H
 
 #include <stdint.h>
+#include <linux/gpio.h>
 
 struct t1_state {
     int spi_fd; /* File descriptor for transport */
+    int gpio_interrupt_fd; /* File descriptor for GPIO */
+	struct gpioevent_request rq;/* File descriptor for interrupt GPIO */
 
     struct {
         /* Ordered by decreasing priority */

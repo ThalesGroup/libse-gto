@@ -66,3 +66,12 @@
 
 /* Version number of package */
 #define VERSION "2.0-gp"
+
+/* GPIO chipset for interrupt */
+#define SE_GTO_GPIO_CHIP "/dev/gpiochip2"
+
+/* GPIO chipset pin offset for interrupt */
+#define SE_GTO_GPIO_OFFSET 5
+
+/* Enable Polling mode and disable IRQ mode */
+#define POLL_MODE
