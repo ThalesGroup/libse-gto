@@ -687,7 +687,7 @@ t1_init(struct t1_state *t1)
     t1_clear_states(t1);
 
     t1->chk_algo = CHECKSUM_CRC;
-    t1->ifsc     = 64;
+    t1->ifsc     = 32;
     t1->ifsd     = 254;
     t1->bwt      = 300; /* milliseconds */
 
