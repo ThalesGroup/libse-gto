@@ -73,5 +73,5 @@
 /* GPIO chipset pin offset for interrupt */
 #define SE_GTO_GPIO_OFFSET 5
 
-/* Enable Polling mode and disable IRQ mode */
-#define POLL_MODE
+/* Enable IRQ mode and disable POLL mode */
+//#define IRQ_MODE

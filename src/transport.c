@@ -33,7 +33,7 @@
 #include "transport.h"
 #include "spi.h"
 
-#ifndef POLL_MODE
+#ifdef IRQ_MODE
 #include "gpio_core.h"
 #endif
 
@@ -128,7 +128,7 @@ block_recv(struct t1_state *t1, void *block, size_t n)
     bwt     = t1->bwt * (t1->wtx ? t1->wtx : 1);
     t1->wtx = 1;
     i = 0;
-#if defined(POLL_MODE)
+#ifndef IRQ_MODE
     clock_gettime(CLOCK_MONOTONIC, &ts);
 
     ts_timeout = ts_add_ns(ts, bwt * NSEC_PER_MSEC);
