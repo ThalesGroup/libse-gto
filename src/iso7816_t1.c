@@ -715,8 +715,8 @@ t1_release(struct t1_state *t1)
 static void
 t1_bind(struct t1_state *t1, int src, int dst)
 {
-    src &= 7;
-    dst &= 7;
+    src &= 0xF;
+    dst &= 0xF;
 
     t1->nad  = src | (dst << 4);
     t1->nadc = dst | (src << 4);
