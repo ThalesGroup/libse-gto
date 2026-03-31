@@ -1,6 +1,6 @@
-Version 2.0-gp
+Version gp_v1.1-r1
 
 See ChangeLog for details.
 
 Library for Linux and Android to use eSE over SPI using T=1 protocol.
-Copyright 2015-2023 Thales
+Copyright 2015-2026 Thales
