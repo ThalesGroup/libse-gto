@@ -150,6 +150,14 @@ const char *se_gto_get_gtodev(struct se_gto_ctx *ctx);
  */
 void se_gto_set_gtodev(struct se_gto_ctx *ctx, const char *gtodev);
 
+/** Set SPI frequency in Hz.
+ *
+ * @param ctx se-gto library context.
+ * @param freq frequency in Hz.
+ */
+void se_gto_set_spi_freq(struct se_gto_ctx *ctx, int spi_freq);
+
+
 /****************************** APDU protocol *******************************/
 
 /** Send reset command to Secure Element.

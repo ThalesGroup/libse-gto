@@ -134,8 +134,8 @@ se_gto_new(struct se_gto_ctx **c)
         isot1_init(&ctx->t1);
 
         ctx->log_fn = log_stderr;
-
         ctx->gtodev = SE_GTO_GTODEV;
+        ctx->spi_freq = SPI_FREQUENCY;
     #ifdef IRQ_MODE
         ctx->interrupt_gpio_chipset = SE_GTO_GPIO_CHIP;
         ctx->interrupt_gpio_offset = SE_GTO_GPIO_OFFSET;
@@ -196,6 +196,16 @@ SE_GTO_EXPORT void
 se_gto_set_gtodev(struct se_gto_ctx *ctx, const char *gtodev)
 {
     ctx->gtodev = strdup(gtodev);
+}
+
+SE_GTO_EXPORT void
+se_gto_set_spi_freq(struct se_gto_ctx *ctx, int spi_freq)
+{
+    //check frequency validation
+    if (spi_freq < 1000000 || spi_freq > 20000000)
+        return;
+
+    ctx->spi_freq = spi_freq;
 }
 
 SE_GTO_EXPORT int
