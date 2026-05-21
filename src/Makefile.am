@@ -35,8 +35,7 @@ libse_gto_la_SOURCES = \
 	log.h             \
 	compiler.h
 
-libse_gto_la_LDFLAGS = $(AM_LDFLAGS) \
-	-version-info $(LIBSE_GTO_CURRENT):$(LIBSE_GTO_REVISION):$(LIBSE_GTO_AGE)
+libse_gto_la_LDFLAGS = $(AM_LDFLAGS) -pthread -version-info $(LIBSE_GTO_CURRENT):$(LIBSE_GTO_REVISION):$(LIBSE_GTO_AGE)
 
 if HAVE_LINK_VERSION_SCRIPT
 # Deactivate usage of symbols version until Linux port further need it

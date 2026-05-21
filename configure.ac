@@ -111,10 +111,7 @@ my_CFLAGS="\
 AC_SUBST([my_CFLAGS])
 
 AC_CONFIG_HEADERS(config.h jni/android/config.h)
-AC_CONFIG_FILES([
-        Makefile
-        src/Makefile
-])
+AC_CONFIG_FILES([Makefile src/Makefile])
 AC_REQUIRE_AUX_FILE([tap-driver.sh])
 AC_PROG_AWK
 
