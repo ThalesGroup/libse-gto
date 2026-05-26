@@ -1,6 +1,6 @@
 AC_PREREQ(2.60)
 AC_INIT([GEMALTO libse-gto],
-        [gp_v1.1-r1],
+        [gp_v1.1-v2.0.3],
         [support@gemalto.com],
         [libse-gto],
         [http://gemalto.com])
