@@ -282,7 +282,7 @@ se_gto_apdu_transmit(struct se_gto_ctx *ctx, const void *apdu, int n, void *resp
             return err;
         }
         r = isot1_transceive(&ctx->t1, apdu, n, resp, r);
-        if (r < 0) {
+        if (r < 0 || resp == NULL) {
             errno = -r;
             err("failed to read APDU response, %s\n", strerror(-r));
         } else if (r < 2) {
@@ -384,6 +384,8 @@ se_gto_close(struct se_gto_ctx *ctx)
     #ifdef ENABLE_LOGGING
         // log_teardown(ctx);
     #endif /* ifdef ENABLE_LOGGING */
+        if(ctx->gtodev != NULL)
+            free(ctx->gtodev)
         free(ctx);
         _se_gto_unlock_mutex();
     }

@@ -19,7 +19,6 @@
  *
  * libse-gto to dialog with device T=1 protocol over SPI.
  *
- * This library is not thread safe on same context.
  */
 
 #ifndef LIBSE_GTO_H
