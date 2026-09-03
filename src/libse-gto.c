@@ -36,6 +36,8 @@
 #include "libse-gto-private.h"
 #include "spi.h"
 
+#define ESE_NAD_C 0x29
+
 #ifdef IRQ_MODE
 #include "gpio_core.h"
 #endif
@@ -329,7 +331,7 @@ se_gto_open(struct se_gto_ctx *ctx)
 
         ctx->check_alive = 0;
 
-        isot1_bind(&ctx->t1, 0x9, 0x2);
+        isot1_bind(&ctx->t1, ESE_NAD_C & 0x0F, (ESE_NAD_C >> 4) & 0xFF);
 
         dbg("fd: spi=%d\n", ctx->t1.spi_fd);
         err = 0;
@@ -382,10 +384,9 @@ se_gto_close(struct se_gto_ctx *ctx)
         (void)gpio_interrupt_teardown(ctx);
     #endif
     #ifdef ENABLE_LOGGING
-        // log_teardown(ctx);
+        //clear log buffer
+        log_teardown(ctx);
     #endif /* ifdef ENABLE_LOGGING */
-        if(ctx->gtodev != NULL)
-            free(ctx->gtodev)
         free(ctx);
         _se_gto_unlock_mutex();
     }

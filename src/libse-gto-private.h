@@ -29,6 +29,7 @@
 
 #define SE_GTO_EXPORT __attribute__((visibility("default")))
 #define FREQUENCY 0
+#define SE_GTO_GTODEV "/dev/gto"
 
 /**
  * SECTION:libspiplus
@@ -47,6 +48,7 @@ struct se_gto_ctx {
     const char *gtodev;
     const char *interrupt_gpio_chipset;
     int interrupt_gpio_offset;
+
     void *spi_buffer;
     int   spi_nbuffer;
 

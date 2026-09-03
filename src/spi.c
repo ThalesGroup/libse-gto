@@ -37,7 +37,7 @@
 #define USE_OPEN_RETRY
 #define MAX_RETRY_CNT 10
 
-int
+static int
 spi_set_speed(struct se_gto_ctx *ctx)
 {
     uint32_t speed = ctx->frequency;
@@ -50,12 +50,12 @@ spi_set_speed(struct se_gto_ctx *ctx)
     status = ioctl(ctx->t1.spi_fd, SPI_IOC_WR_MAX_SPEED_HZ, &speed);
     if(status < 0)
     {
-      err("Could not set SPI speed (WR)...ioctl fail");
+      err("Could not set SPI speed (WR)...ioctl fail\n");
     }
     status = ioctl(ctx->t1.spi_fd, SPI_IOC_RD_MAX_SPEED_HZ, &speed);
     if(status < 0)
     {
-      err("Could not set SPI speed (RD)...ioctl fail");
+      err("Could not set SPI speed (RD)...ioctl fail\n");
     }
     warn("SPI HW: Set speed status = %d \n", status);
     if(status == 0)

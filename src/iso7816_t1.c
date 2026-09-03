@@ -40,7 +40,7 @@
 
 #define MAX_RETRIES 3
 
-#define MAX_WTX_ROUNDS 240
+#define MAX_WTX_ROUNDS 3
 
 #define WTX_MAX_VALUE 1
 
@@ -425,7 +425,7 @@ parse_response(struct t1_state *t1, uint8_t *buf)
                     break;
                 case T1_REQUEST_CIP: //TODO
                     t1->need_cip = 0;
-                    if((buf[3] | buf[2] << 8) > 0 && (buf[3] | buf[2] << 8) <= sizeof(t1->atr)) {
+                    if((unsigned long)((buf[3] | buf[2] << 8) > 0 && (buf[3] | buf[2] << 8) )<= sizeof(t1->atr)) {
                         t1->atr_length = (buf[3] | buf[2] << 8);
                         memcpy(t1->atr, buf + 4, t1->atr_length);
                         parse_atr(t1);
